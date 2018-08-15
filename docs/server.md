@@ -6,39 +6,41 @@ IPC control api server
 **Kind**: global class  
 
 * [IpcServer](#IpcServer)
-    * [.bind()](#IpcServer+bind)
-    * [.call()](#IpcServer+call)
-    * [._bind()](#IpcServer+_bind)
-    * [._handleBind()](#IpcServer+_handleBind)
-    * [._handleCallOk()](#IpcServer+_handleCallOk)
-    * [._handleCallFail()](#IpcServer+_handleCallFail)
-    * [._callFail()](#IpcServer+_callFail)
+    * [new IpcServer()](#new_IpcServer_new)
+    * [.bind(bindArray)](#IpcServer+bind) ⇒ <code>Promise</code>
+    * [.call(data)](#IpcServer+call) ⇒ <code>array</code>
 
+<a name="new_IpcServer_new"></a>
+
+### new IpcServer()
+create a new ipc server instance
+
+**Example**  
+```js
+const srv = new IpcServer()
+await srv.bind(['ipc://my-socket.ipc', 'tcp://*:12345'])
+```
 <a name="IpcServer+bind"></a>
 
-### ipcServer.bind()
+### ipcServer.bind(bindArray) ⇒ <code>Promise</code>
+Bind / create a listening socket for clients to connect to
+
 **Kind**: instance method of [<code>IpcServer</code>](#IpcServer)  
+**Returns**: <code>Promise</code> - resolved if all connections bind successfully  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| bindArray | <code>array</code> \| <code>string</code> | list of zmq endpoints to bind |
+
 <a name="IpcServer+call"></a>
 
-### ipcServer.call()
-**Kind**: instance method of [<code>IpcServer</code>](#IpcServer)  
-<a name="IpcServer+_bind"></a>
+### ipcServer.call(data) ⇒ <code>array</code>
+Transmit a `call` message to all ipc clients
 
-### ipcServer._bind()
 **Kind**: instance method of [<code>IpcServer</code>](#IpcServer)  
-<a name="IpcServer+_handleBind"></a>
+**Returns**: <code>array</code> - array of response data from all clients  
 
-### ipcServer._handleBind()
-**Kind**: instance method of [<code>IpcServer</code>](#IpcServer)  
-<a name="IpcServer+_handleCallOk"></a>
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>Buffer</code> | the message content |
 
-### ipcServer._handleCallOk()
-**Kind**: instance method of [<code>IpcServer</code>](#IpcServer)  
-<a name="IpcServer+_handleCallFail"></a>
-
-### ipcServer._handleCallFail()
-**Kind**: instance method of [<code>IpcServer</code>](#IpcServer)  
-<a name="IpcServer+_callFail"></a>
-
-### ipcServer._callFail()
-**Kind**: instance method of [<code>IpcServer</code>](#IpcServer)  
