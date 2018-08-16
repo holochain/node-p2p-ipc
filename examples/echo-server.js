@@ -46,11 +46,19 @@ async function _main () {
       case 'call-hello':
         console.log('echoing `call-hello`')
         result = await srv.call(Buffer.from('srv-hello'))
-        if (!result || !result[0] || !result[0].result) {
+        let res = null
+        for (let r of result) {
+          if (r.result) {
+            res = r.result
+            break
+          }
+        }
+        if (!res) {
           return msg.reject(new Error('bad, got ' + JSON.stringify(result)))
         }
+        console.log('@@ result', res)
         msg.resolve('server successfully received `' +
-          result[0].result.toString() + '`')
+          res.toString() + '`')
         break
       case 'call-error':
         console.log('echoing `call-error`')

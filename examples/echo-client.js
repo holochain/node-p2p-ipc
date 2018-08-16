@@ -36,6 +36,7 @@ async function _main () {
   await cli.connect('ipc://echo-server.sock')
   console.log('connected')
 
+  /*
   console.log('calling with `hello`...')
   result = await cli.call(Buffer.from('hello'))
   console.log('result: `' + result.toString() + '`')
@@ -46,14 +47,17 @@ async function _main () {
   } catch (e) {
     console.log('result: `' + e.toString().split('\n')[0] + '`')
   }
+  */
 
   console.log('calling with `call-hello`...')
   result = await cli.call(Buffer.from('call-hello'))
   console.log('result: `' + result.toString() + '`')
 
+  /*
   console.log('calling with `call-error`...')
   result = await cli.call(Buffer.from('call-error'))
   console.log('result: `' + result.toString() + '`')
+  */
 
   console.log('closing...')
   cli.destroy()
