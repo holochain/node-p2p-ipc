@@ -7,7 +7,7 @@ IPC connection client helper
 
 * [IpcClient](#IpcClient)
     * [new IpcClient()](#new_IpcClient_new)
-    * [.connect(endpoint)](#IpcClient+connect)
+    * [.connect(endpoint)](#IpcClient+connect) ⇒ <code>Promise</code>
     * [.ping()](#IpcClient+ping)
     * [.call(data)](#IpcClient+call) ⇒ <code>Buffer</code>
 
@@ -25,10 +25,11 @@ await cli.connect('tcp://127.0.0.1:12345')
 ```
 <a name="IpcClient+connect"></a>
 
-### ipcClient.connect(endpoint)
+### ipcClient.connect(endpoint) ⇒ <code>Promise</code>
 Connect this instance to a server socket
 
 **Kind**: instance method of [<code>IpcClient</code>](#IpcClient)  
+**Returns**: <code>Promise</code> - - resolved if connection is a success  
 
 | Param | Type | Description |
 | --- | --- | --- |

@@ -15,12 +15,11 @@
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "opn": "^5.3.0",
-    "sinon": "^6.1.4",
+    "sinon": "^6.1.5",
     "standard": "^11.0.1"
   },
   "dependencies": {
     "msgpack-lite": "^0.1.26",
-    "sodium-native": "^2.1.6",
     "zeromq": "^4.6.0"
   },
   "standard": {
