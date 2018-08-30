@@ -5,6 +5,12 @@ const { IpcServer } = require('../lib/index')
 
 // IPC Echo Server Example
 
+function l (...args) {
+  args.unshift('#echo-server#')
+  args.push('#')
+  console.log(...args)
+}
+
 /**
  */
 async function _main () {
@@ -14,18 +20,18 @@ async function _main () {
   // handle ctrl-c
   process.on('SIGINT', () => {
     srv.destroy()
-    console.log('socket closed')
+    l('echo-server closed')
     process.exit(0)
   })
 
   // debug output on connections
   srv.on('clientAdd', (id) => {
-    console.log('adding client ' + id)
+    l('adding client', id)
   })
 
   // debug output && mem cleanup on connection lost
   srv.on('clientRemove', (id) => {
-    console.log('pruning client ' + id)
+    l('pruning client', id)
   })
 
   // the client sent us a `call`
@@ -36,15 +42,15 @@ async function _main () {
 
     switch (data) {
       case 'hello':
-        console.log('echoing `hello`')
+        l('client:', '`hello`', 'sending:', '`echo: hello`')
         msg.resolve(Buffer.from('echo: hello'))
         break
       case 'error':
-        console.log('echoing `error`')
+        l('client:', '`error`', 'sending fail:', '`echo: error`')
         msg.reject(new Error('echo: error'))
         break
       case 'call-hello':
-        console.log('echoing `call-hello`')
+        l('client:', '`call-hello`', 'making `srv-hello` call')
         result = await srv.call(Buffer.from('srv-hello'))
         let res = null
         for (let r of result) {
@@ -56,18 +62,19 @@ async function _main () {
         if (!res) {
           return msg.reject(new Error('bad, got ' + JSON.stringify(result)))
         }
-        console.log('@@ result', res)
-        msg.resolve('server successfully received `' +
-          res.toString() + '`')
+        res = res.toString()
+        l('client:', '`' + res + '`', 'sending:', '`srv-got: ' + res + '`')
+        msg.resolve('srv-got: `' + res + '`')
         break
       case 'call-error':
-        console.log('echoing `call-error`')
+        l('client:', '`call-error`', 'making `srv-error` call')
         result = await srv.call(Buffer.from('srv-error'))
         if (!result || !result[0] || !result[0].error) {
           return msg.reject(new Error('bad, got ' + JSON.stringify(result)))
         }
-        msg.resolve('server successfully got error `' +
-          result[0].error.toString().split('\n')[0] + '`')
+        result = result[0].error.toString().split('\n')[0]
+        l('client:', '`' + result + '`', 'sending:', '`srv-got: ' + result + '`')
+        msg.resolve('srv-got: `' + result + '`')
         break
       default:
         console.error('unexpected ' + data)
@@ -78,7 +85,7 @@ async function _main () {
   // make sure we are listening
   await srv.bind('ipc://echo-server.sock')
 
-  console.log('up and running')
+  l('echo-server listening')
 }
 
 _main().then(() => {}, (err) => {
